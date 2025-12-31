@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.16"
+  },
+  "scripts": {
+    "build:tailwind": "npx tailwindcss -i ./event_management/static/css/tailwind.css -o ./event_management/static/css/output.css --minify",
+    "watch:tailwind": "npx tailwindcss -i ./event_management/static/css/tailwind.css -o ./event_management/static/css/output.css --watch"
+  }
+}
