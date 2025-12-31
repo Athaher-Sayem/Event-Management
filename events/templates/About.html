@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Management</title>
-    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <title>Today Events</title>
+
+        <link rel="stylesheet" href="{% static 'css/output.css' %}">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -17,13 +18,13 @@
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
 
-</head class="mb-10">
-<body class="bg-[#FEF9E1] min-h-screen mb-10">
-        <nav class="sticky top-0 z-50 flex items-center justify-between px-12 py-3 bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100">
+</head>
+<body class="bg-[#FEF9E1] min-h-screen ">
+     <nav class="sticky top-0 z-50 flex items-center justify-between px-12 py-3 bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100">
     
     <ul class="flex items-center gap-4 text-gray-600">
         <li>
-            <a href="#" class="px-4 py-2 rounded-full font-bold bg-[#A31D1D]/10 text-[#A31D1D]">Home</a>
+            <a href="#" class="px-4 py-2 rounded-full font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]">Home</a>
         </li>
         <li>
             <a href="#" class="px-4 py-2 rounded-full font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]">Today Events</a>
@@ -35,7 +36,7 @@
             <a href="#" class="px-4 py-2 rounded-full font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]">Past Events</a>
         </li>
         <li>
-            <a href="#" class="px-4 py-2 rounded-full font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]">About Us</a>
+            <a href="#" class="px-4 py-2 rounded-full font-bold bg-[#A31D1D]/10 text-[#A31D1D]">About Us</a>
         </li>
     </ul>
 
@@ -54,43 +55,27 @@
     </div>
     
 </nav>
-    
-    {% comment %} STAT {% endcomment %}
-        <div class="flex flex-wrap justify-center gap-10 pt-20">
-                        {% comment %} Total {% endcomment %}
-    <div class="stats shadow text-[#6D2323] bg-white w-72 transition-shadow duration-300 hover:shadow-lg hover:-translate-y-1">
-        <div class="stat place-items-center py-8">
-            <div class="stat-title text-gray-500 text-lg font-medium">Total Events</div>
-            <div class="stat-value text-5xl mt-2">900</div>
-            <div class="stat-desc text-sm mt-2">21% more than last month</div>
-        </div>
-    </div>
-                                    {% comment %} Today {% endcomment %}
-    <div class="stats shadow text-[#6D2323] bg-white w-72 transition-shadow duration-300 hover:shadow-lg hover:-translate-y-1">
-        <div class="stat place-items-center py-8">
-            <div class="stat-title text-gray-500 text-lg font-medium">Today Events</div>
-            <div class="stat-value text-5xl mt-2">200</div>
-            <div class="stat-desc text-sm mt-2">21% more than last month</div>
-        </div>
-    </div>
-                                        {% comment %} Upcomming {% endcomment %}
-    <div class="stats shadow text-[#6D2323] bg-white w-72 transition-shadow duration-300 hover:shadow-lg hover:-translate-y-1">
-        <div class="stat place-items-center py-8">
-            <div class="stat-title text-gray-500 text-lg font-medium">Upcoming Events</div>
-            <div class="stat-value text-5xl mt-2">300</div>
-            <div class="stat-desc text-sm mt-2">21% more than last month</div>
-        </div>
-    </div>
-                                                        {% comment %} Past {% endcomment %}
-    <div class="stats shadow text-[#6D2323] bg-white w-72 transition-shadow duration-300 hover:shadow-lg hover:-translate-y-1">
-        <div class="stat place-items-center py-8">
-            <div class="stat-title text-gray-500 text-lg font-medium">Past Events</div>
-            <div class="stat-value text-5xl mt-2">400</div>
-            <div class="stat-desc text-sm mt-2">21% more than last month</div>
-        </div>
-    </div>
 
+    <div class="mt-20 px-20">
+
+    {% comment %} StatCard {% endcomment %}
+   <div class="mt-10 px-30">
+    <div class="text-[#FEF9E1] transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 p-3 rounded-2xl">
+        <div class="stats shadow-2xl bg-[#ca3131] w-full">
+            <div class="stat place-items-center flex justify-center">
+                <div class="text-[#FEF9E1] stat-title text-2xl">Today Event Counts</div>
+                <div class="text-[#FEF9E1] stat-value text-6xl px-20">900</div>
+                <div class=" text-[#FEF9E1] stat-desc text-lg">Total Participants Join -> </div>
+                <div class="text-[#FEF9E1] stat-value text-5xl px-20">900</div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
+
+{% comment %} Event CARD {% endcomment %}
 
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-10">
@@ -275,6 +260,8 @@
 </div>
     
 </div>
+
+      
     
 </body>
 </html>
