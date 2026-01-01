@@ -19,27 +19,36 @@
 
 
 </head>
-<body class="bg-[#FEF9E1] min-h-screen flex items-center justify-center">
+<body class="bg-[#FEF9E1] min-h-screen">
 
-  <div class="bg-white w-[600px] p-12 rounded-2xl shadow-2xl flex flex-col gap-8 border border-violet-200">
-    
-    <h2 class="text-4xl font-bold text-[#A31D1D] text-center">Sign Up</h2>
+    {% include "nav_ex.html" %}
 
-    <div class="flex flex-col gap-2">
-      <label class="text-xl font-bold text-gray-700">Name</label>
-      <input type="text" placeholder="Enter Your Name" 
-             class="border-2 border-red-300 rounded-xl p-4 text-lg focus:outline-none focus:border-red-700 focus:border-4">
-    </div>
 
-    <div class="flex flex-col gap-2">
-      <label class="text-xl font-bold text-gray-700">Email</label>
-      <input type="text" placeholder="Enter Your Email" 
-             class="border-2 border-red-300 rounded-xl p-4 text-lg focus:outline-none  focus:border-red-700 focus:border-4">
-    </div>
 
-    <button class="bg-[#FEF9E1] text-[#A31D1D] text-xl font-bold py-4 px-6 rounded-xl hover:bg-yellow-200 transition shadow-lg mt-4">
-      Submit 
-    </button>
+ <div class=" flex items-center justify-center mt-15">
+
+
+     <div class="bg-white w-[600px] p-12 rounded-2xl shadow-2xl flex flex-col gap-8 border border-violet-200">
+       
+       <h2 class="text-4xl font-bold text-[#A31D1D] text-center">Sign Up</h2>
+   
+       <div class="flex flex-col gap-2">
+         <label class="text-xl font-bold text-gray-700">Name</label>
+         <input type="text" placeholder="Enter Your Name" 
+                class="border-2 border-red-300 rounded-xl p-4 text-lg focus:outline-none focus:border-red-700 focus:border-4">
+       </div>
+   
+       <div class="flex flex-col gap-2">
+         <label class="text-xl font-bold text-gray-700">Email</label>
+         <input type="text" placeholder="Enter Your Email" 
+                class="border-2 border-red-300 rounded-xl p-4 text-lg focus:outline-none  focus:border-red-700 focus:border-4">
+       </div>
+   
+       <button class="bg-[#FEF9E1] text-[#A31D1D] text-xl font-bold py-4 px-6 rounded-xl hover:bg-yellow-200 transition shadow-lg mt-4">
+         Submit 
+       </button>
+
+ </div>
 
   </div>
 

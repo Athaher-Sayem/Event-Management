@@ -1,37 +1,91 @@
-  <nav class="sticky top-0 z-50 flex items-center justify-between px-12 py-3 bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100">
+<nav class="sticky top-0 z-50 flex items-center justify-between px-12 py-3 bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100">
     
     <ul class="flex items-center gap-4 text-gray-600">
+        
         <li>
-            <a href="#" class="px-4 py-2 rounded-full font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]">Home</a>
+            <a href="{% url 'home' %}" 
+               class="px-4 py-2 rounded-full 
+               {% if request.resolver_match.url_name == 'home' %}
+                   font-bold bg-[#A31D1D]/10 text-[#A31D1D]
+               {% else %}
+                   font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]
+               {% endif %}">
+               Home
+            </a>
         </li>
+
         <li>
-            <a href="#" class="px-4 py-2 rounded-full font-bold bg-[#A31D1D]/10 text-[#A31D1D]">Today Events</a>
+            <a href="{% url 'today_events' %}" 
+               class="px-4 py-2 rounded-full 
+               {% if request.resolver_match.url_name == 'today_events' %}
+                   font-bold bg-[#A31D1D]/10 text-[#A31D1D]
+               {% else %}
+                   font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]
+               {% endif %}">
+               Today Events
+            </a>
         </li>
+
         <li>
-            <a href="#" class="px-4 py-2 rounded-full font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]">Upcoming</a>
+            <a href="{% url 'upcoming_events' %}" 
+               class="px-4 py-2 rounded-full 
+               {% if request.resolver_match.url_name == 'upcoming_events' %}
+                   font-bold bg-[#A31D1D]/10 text-[#A31D1D]
+               {% else %}
+                   font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]
+               {% endif %}">
+               Upcoming
+            </a>
         </li>
+
         <li>
-            <a href="#" class="px-4 py-2 rounded-full font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]">Past Events</a>
+            <a href="{% url 'past_events' %}" 
+               class="px-4 py-2 rounded-full 
+               {% if request.resolver_match.url_name == 'past_events' %}
+                   font-bold bg-[#A31D1D]/10 text-[#A31D1D]
+               {% else %}
+                   font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]
+               {% endif %}">
+               Past Events
+            </a>
         </li>
+
+
         <li>
-            <a href="#" class="px-4 py-2 rounded-full font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]">About</a>
+            <a href="{% url 'Create_Event' %}" 
+               class="px-4 py-2 rounded-full 
+               {% if request.resolver_match.url_name == 'Create_Event' %}
+                   font-bold bg-[#A31D1D]/10 text-[#A31D1D]
+               {% else %}
+                   font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]
+               {% endif %}">
+               Create Event
+            </a>
         </li>
+
+
+
+        <li>
+            <a href="{% url 'about_us' %}" 
+               class="px-4 py-2 rounded-full 
+               {% if request.resolver_match.url_name == 'about_us' %}
+                   font-bold bg-[#A31D1D]/10 text-[#A31D1D]
+               {% else %}
+                   font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]
+               {% endif %}">
+               About
+            </a>
+        </li>
+
     </ul>
 
     <div>
-
-            <div class="flex items-center w-80 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full focus-within:ring-2 focus-within:ring-[#A31D1D]/20 focus-within:border-[#A31D1D] transition-all">
-                
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-
-                <input type="text" 
-                    placeholder="Search events..." 
-                    class="w-full ml-3 bg-transparent outline-none text-gray-600 placeholder-gray-400" />
-            </div>
+        <div class="flex items-center w-80 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full focus-within:ring-2 focus-within:ring-[#A31D1D]/20 focus-within:border-[#A31D1D] transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" name="q" placeholder="Search events..." class="w-full ml-3 bg-transparent outline-none text-gray-600 placeholder-gray-400" />
+        </div>
     </div>
     
 </nav>
-
-{% block nav %}{% endblock nav %}
