@@ -42,18 +42,43 @@ def Home_view(request):
 
 
 def Today_view(request):
-    return render(request,"Today.html")
+    now = timezone.now()
+    all_events = Event.objects.filter(date_time__date=now.date())
+    today_count =all_events.count()
+    context = {
+        'events': all_events,          
+        'today_count': today_count,
+    }
+    
+    return render(request,"Today.html",context)
 
 
 
 def Upcomming_view(request):
-    return render(request,"Upcomming.html")
+    now = timezone.now()
+    upcomming = Event.objects.filter(date_time__gt=now.date())
+    upcomming_count =upcomming.count()
+    context = {
+        'events': upcomming,          
+        'upcomming_count': upcomming_count,
+    }
+    
+    return render(request,"Upcomming.html",context)
 
 
 
 
 def Past_view(request):
-    return render(request,"Past.html")
+    now = timezone.now()
+    past_events = Event.objects.filter(date_time__lt=now)
+    past_count = Event.objects.filter(date_time__lt=now).count()
+
+    context = {
+        'events': past_events,          
+        'past_count': past_count,
+       
+    }
+    return render(request,"Past.html",context)
 
 
 
