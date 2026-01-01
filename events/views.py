@@ -43,10 +43,12 @@ def Home_view(request):
 
 def Today_view(request):
     now = timezone.now()
-    all_events = Event.objects.filter(date_time__date=now.date())
-    today_count =all_events.count()
+    today = Event.objects.filter(date_time__date=now.date())
+    patcount = Participant.objects.filter(events__in=today).distinct().count()
+    today_count =today.count()
     context = {
-        'events': all_events,          
+        'patcount':patcount,
+        'events': today,          
         'today_count': today_count,
     }
     
@@ -58,7 +60,10 @@ def Upcomming_view(request):
     now = timezone.now()
     upcomming = Event.objects.filter(date_time__gt=now.date())
     upcomming_count =upcomming.count()
+
+    patcount = Participant.objects.filter(events__in=upcomming).distinct().count()
     context = {
+        'patcount':patcount,
         'events': upcomming,          
         'upcomming_count': upcomming_count,
     }
@@ -73,7 +78,9 @@ def Past_view(request):
     past_events = Event.objects.filter(date_time__lt=now)
     past_count = Event.objects.filter(date_time__lt=now).count()
 
+    patcount = Participant.objects.filter(events__in=past_events).distinct().count()
     context = {
+        'patcount':patcount,
         'events': past_events,          
         'past_count': past_count,
        
