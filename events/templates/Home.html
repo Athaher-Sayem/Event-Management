@@ -23,37 +23,37 @@
          {% include "nav_ex.html" %}
     
     {% comment %} STAT {% endcomment %}
-        <div class="flex flex-wrap justify-center gap-10 pt-20">
+ <div class="flex flex-wrap justify-center gap-10 pt-20">
                         {% comment %} Total {% endcomment %}
     <div class="stats shadow text-[#6D2323] bg-white w-72 transition-shadow duration-300 hover:shadow-lg hover:-translate-y-1">
         <div class="stat place-items-center py-8">
             <div class="stat-title text-gray-500 text-lg font-medium">Total Events</div>
-            <div class="stat-value text-5xl mt-2">900</div>
-            <div class="stat-desc text-sm mt-2">21% more than last month</div>
+            <div class="stat-value text-5xl mt-2">{{total_count}} </div>
+            <div class="stat-desc text-sm mt-2">All time records</div>
         </div>
     </div>
                                     {% comment %} Today {% endcomment %}
     <div class="stats shadow text-[#6D2323] bg-white w-72 transition-shadow duration-300 hover:shadow-lg hover:-translate-y-1">
         <div class="stat place-items-center py-8">
             <div class="stat-title text-gray-500 text-lg font-medium">Today Events</div>
-            <div class="stat-value text-5xl mt-2">200</div>
-            <div class="stat-desc text-sm mt-2">21% more than last month</div>
+            <div class="stat-value text-5xl mt-2"> {{today_count}} </div>
+            <div class="stat-desc text-sm mt-2">Happening now</div>
         </div>
     </div>
                                         {% comment %} Upcomming {% endcomment %}
     <div class="stats shadow text-[#6D2323] bg-white w-72 transition-shadow duration-300 hover:shadow-lg hover:-translate-y-1">
         <div class="stat place-items-center py-8">
             <div class="stat-title text-gray-500 text-lg font-medium">Upcoming Events</div>
-            <div class="stat-value text-5xl mt-2">300</div>
-            <div class="stat-desc text-sm mt-2">21% more than last month</div>
+            <div class="stat-value text-5xl mt-2">{{upcoming_count}} </div>
+            <div class="stat-desc text-sm mt-2">Future schedules</div>
         </div>
     </div>
                                                         {% comment %} Past {% endcomment %}
     <div class="stats shadow text-[#6D2323] bg-white w-72 transition-shadow duration-300 hover:shadow-lg hover:-translate-y-1">
         <div class="stat place-items-center py-8">
             <div class="stat-title text-gray-500 text-lg font-medium">Past Events</div>
-            <div class="stat-value text-5xl mt-2">400</div>
-            <div class="stat-desc text-sm mt-2">21% more than last month</div>
+            <div class="stat-value text-5xl mt-2">{{past_count}} </div>
+            <div class="stat-desc text-sm mt-2">Completed</div>
         </div>
     </div>
 
@@ -63,7 +63,9 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-10">
 
                    {% comment %} 1st CARD {% endcomment %}
-
+        {% for siev in events %}
+        
+                        
 <div class="card mt-20 w-96 bg-base-100 shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-3 p-3">
     <figure class="overflow-hidden">
         <img src="https://images.pexels.com/photos/1243337/pexels-photo-1243337.jpeg" 
@@ -73,9 +75,9 @@
 
 
     <div class="card-body">
-        <h2 class="card-title text-2xl text-[#A31D1D]">Elegant Wine Tasting Night</h2>
-        <div class="badge badge-primary badge-lg">Food & Wine</div>
-        <p class="text-gray-600 mt-3">An evening of premium wines, expert tasting sessions, and delightful pairings.</p>
+        <h2 class="card-title text-2xl text-[#A31D1D]">{{siev.event_name}} </h2>
+        <div class="badge badge-primary badge-lg">{{siev.category}} </div>
+        <p class="text-gray-600 mt-3">{{siev.event_description}} </p>
 
     
         <div class="mt-5 space-y-2 text-sm">
@@ -83,14 +85,14 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <span>January 15, 2026</span>
+                <span>{{ siev.date_time|date:"d M, Y" }} </span>
             </div>
 
             <div class="flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span>7:00 PM - 10:00 PM</span>
+                <span>{{ siev.date_time|time:"h:i A" }}</span>
             </div>
 
             <div class="flex items-center gap-2">
@@ -98,150 +100,18 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <span>Grand Hotel Ballroom, Dhaka</span>
+                <span>{{siev.location}}</span>
             </div>
         </div>
 
     </div>
 </div>
 
+        
+        
+        
+        {% endfor %}
 
-
-   {% comment %} 1st CARD {% endcomment %}
-
-<div class="card mt-20 w-96 bg-base-100 shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-3 p-3">
-    <figure class="overflow-hidden">
-        <img src="https://images.pexels.com/photos/1243337/pexels-photo-1243337.jpeg" 
-             alt="Wine Tasting Event" 
-             class="h-48 w-full object-cover" />
-    </figure>
-
-
-    <div class="card-body">
-        <h2 class="card-title text-2xl text-[#A31D1D]">Elegant Wine Tasting Night</h2>
-        <div class="badge badge-primary badge-lg">Food & Wine</div>
-        <p class="text-gray-600 mt-3">An evening of premium wines, expert tasting sessions, and delightful pairings.</p>
-
-    
-        <div class="mt-5 space-y-2 text-sm">
-            <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span>January 15, 2026</span>
-            </div>
-
-            <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>7:00 PM - 10:00 PM</span>
-            </div>
-
-            <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span>Grand Hotel Ballroom, Dhaka</span>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-
-
-   {% comment %} 1st CARD {% endcomment %}
-
-<div class="card mt-20 w-96 bg-base-100 shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-3 p-3">
-    <figure class="overflow-hidden">
-        <img src="https://images.pexels.com/photos/1243337/pexels-photo-1243337.jpeg" 
-             alt="Wine Tasting Event" 
-             class="h-48 w-full object-cover" />
-    </figure>
-
-
-    <div class="card-body">
-        <h2 class="card-title text-2xl text-[#A31D1D]">Elegant Wine Tasting Night</h2>
-        <div class="badge badge-primary badge-lg">Food & Wine</div>
-        <p class="text-gray-600 mt-3">An evening of premium wines, expert tasting sessions, and delightful pairings.</p>
-
-    
-        <div class="mt-5 space-y-2 text-sm">
-            <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span>January 15, 2026</span>
-            </div>
-
-            <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>7:00 PM - 10:00 PM</span>
-            </div>
-
-            <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span>Grand Hotel Ballroom, Dhaka</span>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-
-
-
-   {% comment %} 1st CARD {% endcomment %}
-
-<div class="card mt-20 w-96 bg-base-100 shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-3 p-3 ">
-    <figure class="overflow-hidden">
-        <img src="https://images.pexels.com/photos/1243337/pexels-photo-1243337.jpeg" 
-             alt="Wine Tasting Event" 
-             class="h-48 w-full object-cover" />
-    </figure>
-
-
-    <div class="card-body">
-        <h2 class="card-title text-2xl text-[#A31D1D]">Elegant Wine Tasting Night</h2>
-        <div class="badge badge-primary badge-lg">Food & Wine</div>
-        <p class="text-gray-600 mt-3">An evening of premium wines, expert tasting sessions, and delightful pairings.</p>
-
-    
-        <div class="mt-5 space-y-2 text-sm">
-            <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span>January 15, 2026</span>
-            </div>
-
-            <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>7:00 PM - 10:00 PM</span>
-            </div>
-
-            <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span>Grand Hotel Ballroom, Dhaka</span>
-            </div>
-        </div>
-
-    </div>
-</div>
-    
-</div>
     
 </body>
 </html>
