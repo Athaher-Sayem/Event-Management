@@ -8,10 +8,7 @@ class Create_Task(forms.ModelForm):
     class Meta:
         model = Event
         fields = '__all__'
-        
-        # This is our "Modern Style" for every input box
-        # rounded-lg = Soft corners
-        # focus:ring = Blue glow when you click inside
+
         style = "w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
 
         widgets = {
@@ -19,5 +16,5 @@ class Create_Task(forms.ModelForm):
             'event_description': forms.Textarea(attrs={'class': style, 'rows': 4, 'placeholder': 'Describe the details...'}),
             'location': forms.TextInput(attrs={'class': style, 'placeholder': 'Where is it happening?'}),
             'date_time': forms.DateTimeInput(attrs={'class': style, 'type': 'datetime-local'}),
-            'category': forms.Select(attrs={'class': style}), # Even the dropdown gets the style!
+            'category': forms.Select(attrs={'class': style}),
         }

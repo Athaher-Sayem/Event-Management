@@ -9,7 +9,7 @@ def Create_Event(request):
         form = Create_Task(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('Create_Event')
     else:
         form = Create_Task()
 

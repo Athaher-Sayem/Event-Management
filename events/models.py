@@ -28,8 +28,21 @@ class Participant(models.Model):
 
 
 class Category(models.Model):
-    cat_name = models.CharField(max_length=100)
+
+    SEMINAR = 'SEM'
+    WORKSHOP = 'WRK'
+    SOCIAL = 'SOC'
+    MEETING = 'MEET'
+
+    Category_Type = [
+        (SEMINAR, 'Seminar'),
+        (WORKSHOP, 'Workshop'),
+        (SOCIAL, 'Social Party'),
+        (MEETING, 'Official Meeting'),
+    ]
+
+    cat_name = models.CharField(max_length=20, choices=Category_Type, default=SEMINAR)
     cat_description =models.TextField()
 
     def __str__(self):
-        return self.cat_name
+        return self.get_cat_name_display()

@@ -7,6 +7,6 @@ urlpatterns = [
     path('Upcomming_Events/',Upcomming_view),
     path('Past_Events/',Past_view),
     path('About_Us/',About_view),
-    path('Create_Event/',Create_Event),
+    path('Create_Event/',Create_Event, name='Create_Event'),
    
 ]
