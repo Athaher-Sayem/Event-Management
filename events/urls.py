@@ -1,5 +1,5 @@
 from django.urls import path
-from events.views import Home_view,Today_view,Upcomming_view,Past_view,About_view
+from events.views import Home_view,Today_view,Upcomming_view,Past_view,About_view,Create_Event
 
 urlpatterns = [
     path('Home/', Home_view),
@@ -7,5 +7,6 @@ urlpatterns = [
     path('Upcomming_Events/',Upcomming_view),
     path('Past_Events/',Past_view),
     path('About_Us/',About_view),
+    path('Create_Event/',Create_Event),
    
 ]
