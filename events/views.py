@@ -30,11 +30,9 @@ def Home_view(request):
     past_count = Event.objects.filter(date_time__lt=now).count()
     today_count = Event.objects.filter(date_time__date=now.date()).count()
 
-    tot_c=past_count+today_count+upcoming_count
-
     context = {
-        'events': all_events,         
-        'total_count': tot_c,    
+        'events': all_events,          
+        'total_count': total_count,    
         'upcoming_count': upcoming_count,
         'past_count': past_count,
         'today_count': today_count,
