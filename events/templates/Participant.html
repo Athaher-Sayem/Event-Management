@@ -1,12 +1,47 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Participant</title>
-</head>
-<body>
-    <h1>Hello</h1>
+    <title>Register</title>
+
+        <link rel="stylesheet" href="{% static 'css/output.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+
+</head>
+<body class="bg-[#FEF9E1] min-h-screen flex items-center justify-center">
+
+  <div class="bg-white w-[600px] p-12 rounded-2xl shadow-2xl flex flex-col gap-8 border border-violet-200">
+    
+    <h2 class="text-4xl font-bold text-[#A31D1D] text-center">Sign Up</h2>
+
+    <div class="flex flex-col gap-2">
+      <label class="text-xl font-bold text-gray-700">Name</label>
+      <input type="text" placeholder="Enter Your Name" 
+             class="border-2 border-red-300 rounded-xl p-4 text-lg focus:outline-none focus:border-red-700 focus:border-4">
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label class="text-xl font-bold text-gray-700">Email</label>
+      <input type="text" placeholder="Enter Your Email" 
+             class="border-2 border-red-300 rounded-xl p-4 text-lg focus:outline-none  focus:border-red-700 focus:border-4">
+    </div>
+
+    <button class="bg-[#FEF9E1] text-[#A31D1D] text-xl font-bold py-4 px-6 rounded-xl hover:bg-yellow-200 transition shadow-lg mt-4">
+      Submit 
+    </button>
+
+  </div>
+
 </body>
 </html>

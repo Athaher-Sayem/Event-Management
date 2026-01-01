@@ -1,6 +1,6 @@
 
 from django.shortcuts import render, redirect
-from .models import Event
+from .models import Event,Participant
 from .forms import Create_Task
 
 
@@ -16,7 +16,9 @@ def Create_Event(request):
     return render(request, "Create_Event.html", {'form': form})
 
 def Participant_Reg(request):
-    return render(request,"Participant.html")
+    parti=Participant.objects.all()
+
+    return render(request,"Participant.html",{'Parti':parti})
 
 
 
