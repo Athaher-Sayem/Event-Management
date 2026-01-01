@@ -1,24 +1,45 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Event</title>
+    <title>Create New Event</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
 </head>
-<body>
 
-    <h1>Create a New Event</h1>
+<body class="bg-[#FEF9E1] min-h-screen flex items-center justify-center p-6 font-sans">
 
-    <form method="POST">
+    <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden">
         
-        {% csrf_token %}
+        <div class="bg-blue-600 p-6 text-center">
+            <h1 class="text-white text-3xl font-bold">Create Event</h1>
+            <p class="text-blue-100 mt-2">Plan your next big moment</p>
+        </div>
 
-        {{ form.as_p }}
+        <form method="POST" class="p-8 space-y-6">
+            {% csrf_token %}
 
-        <button type="submit">Save Event</button>
-        
-    </form>
-    
-    
+            {% for field in form %}
+            <div class="space-y-2">
+                <label class="block text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                    {{ field.label }}
+                </label>
+                
+                {{ field }}
+                
+                {% if field.errors %}
+                    <p class="text-red-500 text-xs italic">{{ field.errors.0 }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <button type="submit" 
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transform transition hover:scale-[1.02] duration-200">
+                Save Event 🚀
+            </button>
+        </form>
+    </div>
+
 </body>
 </html>

@@ -1,18 +1,20 @@
+
 from django.shortcuts import render, redirect
 from .models import Event
 from .forms import Create_Task
 
+
 def Create_Event(request):
-   
     if request.method == 'POST':
         form = Create_Task(request.POST)
-        if form.is_valid():              
-            form.save()                  
-            return redirect('home')      
+        if form.is_valid():
+            form.save()
+            return redirect('home')
     else:
         form = Create_Task()
 
     return render(request, "Create_Event.html", {'form': form})
+
 
 
 
@@ -39,5 +41,3 @@ def Past_view(request):
 def About_view(request):
     return render(request,"About.html")
 
-def Create_Event(request):
-    return render(request,"Create_Event.html")
