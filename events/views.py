@@ -15,6 +15,10 @@ def Create_Event(request):
 
     return render(request, "Create_Event.html", {'form': form})
 
+def Participant_Reg(request):
+    return render(request,"Participant.html")
+
+
 
 
 
