@@ -64,6 +64,19 @@
         </li>
 
 
+        
+        <li>
+            <a href="{% url 'Participant' %}" 
+               class="px-4 py-2 rounded-full 
+               {% if request.resolver_match.url_name == 'Participant' %}
+                   font-bold bg-[#A31D1D]/10 text-[#A31D1D]
+               {% else %}
+                   font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]
+               {% endif %}">
+               Participant
+            </a>
+        </li>
+
 
         <li>
             <a href="{% url 'about_us' %}" 
