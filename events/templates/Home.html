@@ -41,7 +41,7 @@
         </div>
     </div>
                                         {% comment %} Upcomming {% endcomment %}
-    <div class="stats shadow text-[#6D2323] bg-white w-72 transition-shadow duration-300 hover:shadow-lg hover:-translate-y-1">
+    <div class="stats shadow text-[#6D2323] bg-white w-72 transition-shadow duration-300 hover:shadow-lg hover:-translate-y-1 ">
         <div class="stat place-items-center py-8">
             <div class="stat-title text-gray-500 text-lg font-medium">Upcoming Events</div>
             <div class="stat-value text-5xl mt-2">{{upcoming_count}} </div>
@@ -102,9 +102,15 @@
                 </svg>
                 <span>{{siev.location}}</span>
             </div>
-            <div class="card-actions mt-6">
+        <div class="card-actions mt-6">
             <a href="{% url 'event_participant_view' siev.id %}" class="btn w-full bg-[#A31D1D] text-white hover:bg-[#851616] border-none">
                 Participant List
+            </a>
+        </div>
+
+        <div class="card-actions mt-6">
+            <a href="{% url 'update_view' siev.id %}" class="btn w-full bg-[#5d1a9c] text-white hover:bg-[#ff0000] border-none">
+                Update Event
             </a>
         </div>
             

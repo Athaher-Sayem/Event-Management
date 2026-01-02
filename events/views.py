@@ -124,3 +124,17 @@ def event_participant_view(request,event_id):
         'participants': participants,
         'total_participants': total
     })
+
+def Update_view(request, event_id):
+    single_event = get_object_or_404(Event, id=event_id)
+    form = Create_Task(instance=single_event)
+
+    if request.method == "POST":
+        form = Create_Task(request.POST, instance=single_event)
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Event Updated Successfully")
+            return redirect('home') 
+        
+    return render(request, "Update_Event.html", {'form': form})
