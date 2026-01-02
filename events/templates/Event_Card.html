@@ -1,54 +1,4 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Today Events</title>
-
-        <link rel="stylesheet" href="{% static 'css/output.css' %}">
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
-
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
-
-</head>
-<body class="bg-[#FEF9E1] min-h-screen ">
-    
-    {% include "nav_ex.html" %}
-
-    <div class="mt-20 px-20">
-
-    {% comment %} StatCard {% endcomment %}
-   <div class="mt-10 px-30">
-    <div class="text-[#FEF9E1] transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 p-3 rounded-2xl">
-        <div class="stats shadow-2xl bg-[#ca3131] w-full">
-            <div class="stat place-items-center flex justify-center">
-                <div class="text-[#FEF9E1] stat-title text-2xl">Upcoming Event Counts</div>
-                <div class="text-[#FEF9E1] stat-value text-6xl px-20">{{upcomming_count}} </div>
-                <div class=" text-[#FEF9E1] stat-desc text-lg">Total Participants Join -> </div>
-                <div class="text-[#FEF9E1] stat-value text-5xl px-20">{{patcount}} </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-{% comment %} Event CARD {% endcomment %}
-
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-10">
-
-                   {% comment %} 1st CARD {% endcomment %}
-       {% for siev in events %}
-
+                       
 <div class="card mt-20 w-96 bg-base-100 shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-3 p-3">
     <figure class="overflow-hidden">
         <img src="https://images.pexels.com/photos/1243337/pexels-photo-1243337.jpeg" 
@@ -56,11 +6,13 @@
              class="h-48 w-full object-cover" />
     </figure>
 
+
     <div class="card-body">
         <h2 class="card-title text-2xl text-[#A31D1D]">{{siev.event_name}} </h2>
         <div class="badge badge-primary badge-lg">{{siev.category}} </div>
         <p class="text-gray-600 mt-3">{{siev.event_description}} </p>
 
+    
         <div class="mt-5 space-y-2 text-sm">
             <div class="flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -85,17 +37,5 @@
             </div>
         </div>
 
-        <div class="card-actions mt-6">
-            <a href="{% url 'Participant_Reg' %}" class="btn w-full bg-[#A31D1D] text-white hover:bg-[#851616] border-none">
-                Register Now
-            </a>
-        </div>
-        
     </div>
 </div>
-
-{% endfor %}
-      
-    
-</body>
-</html>

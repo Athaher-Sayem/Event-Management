@@ -94,13 +94,8 @@ def About_view(request):
 
 
 def Participant_List(request):
-    # সব পার্টিসিপ্যান্ট নিয়ে আসা
     participants = Participant.objects.all()
-    
-    # টোটাল কাউন্ট
     total_participants = participants.count() 
-    
-    # টেমপ্লেটে ডাটা পাঠানো
     context = {
         'participants': participants,
         'total_participants': total_participants,
