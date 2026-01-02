@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event.name }} - Participant List</title>
+
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-[#FEF9E1] min-h-screen">
+    
+    {% include "nav_ex.html" %}
+
+    <div class="mt-20 container mx-auto px-4 lg:px-20">
+
+        
+
+        <div class="flex justify-center mb-12">
+            <div class="stats shadow-2xl bg-[#ca3131] text-[#FEF9E1] rounded-2xl overflow-hidden transform hover:scale-105 transition-all duration-300">
+                <div class="stat place-items-center px-10 py-6">
+                    <div class="stat-title text-[#FEF9E1] opacity-90 text-lg">Total Participants</div>
+                    <div class="stat-value text-6xl font-bold">{{ total_participants }}</div>
+                    <div class="stat-desc text-[#FEF9E1] opacity-80">Currently Registered</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-3xl mx-auto pb-20">
+            <h2 class="text-3xl font-bold text-[#A31D1D] mb-6 border-b-2 border-[#A31D1D] pb-2 inline-block">All Participants</h2>
+
+            <div class="flex flex-col gap-4">
+                {% for participant in participants %}
+                <div class="card card-side bg-white shadow-lg p-4 flex items-center transition-all duration-300 hover:shadow-2xl hover:-translate-x-2">
+                    
+                    <div class="avatar">
+                        <div class="w-16 h-16 mask mask-squircle ring-2 ring-[#A31D1D] ring-offset-2 ring-offset-base-100">
+                            {% if participant.image %}
+                                <img src="{{ participant.image.url }}" alt="{{ participant.parti_name }}" />
+                            {% else %}
+                                <img src="https://ui-avatars.com/api/?name={{ participant.parti_name }}&background=A31D1D&color=fff" alt="{{ participant.parti_name }}" />
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="ml-6 flex-1">
+                        <h3 class="text-xl font-bold text-[#A31D1D]">{{ participant.parti_name }}</h3>
+                        
+                        <div class="flex items-center gap-2 mt-1 text-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-[#ca3131]">
+                                <path d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.162V6a2 2 0 00-2-2H3z" />
+                                <path d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
+                            </svg>
+                            <span class="text-sm font-medium">{{ participant.email }}</span>
+                        </div>
+                    </div>
+
+                </div>
+                {% empty %}
+                <div class="alert alert-warning shadow-lg">
+                    <span>No participants have joined yet for this event.</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

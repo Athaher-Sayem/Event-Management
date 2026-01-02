@@ -113,3 +113,14 @@ def delete_event(request, event_id):
     
     messages.success(request, f"'{event_name}' Event Deleted")
     return redirect('home') 
+
+def event_participant_view(request,event_id):
+    event=get_object_or_404(Event,id=event_id)
+    participants=Participant.objects.filter(events=event)
+    total = participants.count()
+
+    return render(request, "Participant_Event.html", {
+        'event': event,
+        'participants': participants,
+        'total_participants': total
+    })
