@@ -1,8 +1,10 @@
+from django.shortcuts import get_object_or_404
 
 from django.shortcuts import render, redirect
 from .models import Event,Participant
 from .forms import Create_Task
 from django.utils import timezone
+from django.contrib import messages
 
 
 def Create_Event(request):
@@ -104,4 +106,10 @@ def Participant_List(request):
     return render(request, "Participant_List.html", context)
 
 
-
+def delete_event(request, event_id):
+    event = get_object_or_404(Event, id=event_id) 
+    event_name = event.event_name
+    event.delete()
+    
+    messages.success(request, f"'{event_name}' Event Deleted")
+    return redirect('home') 

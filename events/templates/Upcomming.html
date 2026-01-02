@@ -90,11 +90,12 @@
                 Register Now
             </a>
         </div>
-        <div class="card-actions mt-6">
-            <a href="{% url 'Participant_Reg' %}" class="btn w-full bg-[#5d1a9c] text-white hover:bg-[#ff0000] border-none">
-                DELETE EVENT
-            </a>
-        </div>
+         <div class="card-actions mt-6">
+                 <a href="{% url 'delete_event' siev.id %}" 
+                      class="btn w-full bg-[#5d1a9c] text-white hover:bg-[#ff0000] border-none">
+                      DELETE EVENT
+                </a>
+            </div>
         
     </div>
 </div>
