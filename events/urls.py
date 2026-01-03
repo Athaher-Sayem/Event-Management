@@ -1,5 +1,6 @@
 from django.urls import path
 from events.views import *
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('Home/', Home_view, name='home'),
@@ -14,4 +15,5 @@ urlpatterns = [
     path('Participant_Event/<int:event_id>/', event_participant_view, name='event_participant_view'),
     path('Update_View/<int:event_id>/', Update_view, name='update_view'),
     path('search/', Search_event_view, name='Search_event_view'),
+    path('', RedirectView.as_view(url='events/')),
 ]
