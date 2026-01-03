@@ -138,3 +138,19 @@ def Update_view(request, event_id):
             return redirect('home') 
         
     return render(request, "Update_Event.html", {'form': form})
+
+def Search_event_view(request):
+    if request.method == "GET":
+      query=request.GET.get('q',)
+
+      if query:
+          results=Event.objects.filter(event_name__icontains=query)
+      else :
+          results=Event.objects.none()
+
+      context={
+          'events':results,
+          'query':query
+      }
+
+      return render(request,"Search.html",context)  

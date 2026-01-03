@@ -13,4 +13,5 @@ urlpatterns = [
     path('delete/<int:event_id>/',delete_event, name='delete_event'),
     path('Participant_Event/<int:event_id>/', event_participant_view, name='event_participant_view'),
     path('Update_View/<int:event_id>/', Update_view, name='update_view'),
+    path('search/', Search_event_view, name='Search_event_view'),
 ]
