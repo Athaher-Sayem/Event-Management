@@ -1,43 +1,42 @@
-from django.shortcuts import get_object_or_404
-
-from django.shortcuts import render, redirect
-from .models import Event,Participant
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Event, Participant
 from .forms import Create_Task
 from django.utils import timezone
 from django.contrib import messages
-
+from django.db.models import Count, Q 
 
 def Create_Event(request):
     if request.method == 'POST':
         form = Create_Task(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('Create_Event')
+            return redirect('home') 
     else:
         form = Create_Task()
 
     return render(request, "Create_Event.html", {'form': form})
 
 def Participant_Reg(request):
-    parti=Participant.objects.all()
-
-    return render(request,"Participant.html",{'Parti':parti})
+    parti = Participant.objects.all()
+    return render(request, "Participant.html", {'Parti': parti})
 
 
 def Home_view(request):
     now = timezone.now()
-    all_events = Event.objects.all()
-    total_count = all_events.count()
-    upcoming_count = Event.objects.filter(date_time__gt=now).count()
-    past_count = Event.objects.filter(date_time__lt=now).count()
-    today_count = Event.objects.filter(date_time__date=now.date()).count()
+    all_events = Event.objects.select_related('category').all().order_by('-date_time')
+    counts = Event.objects.aggregate(
+        total=Count('id'),
+        upcoming=Count('id', filter=Q(date_time__gt=now)),
+        past=Count('id', filter=Q(date_time__lt=now)),
+        today=Count('id', filter=Q(date_time__date=now.date()))
+    )
 
     context = {
         'events': all_events,          
-        'total_count': total_count,    
-        'upcoming_count': upcoming_count,
-        'past_count': past_count,
-        'today_count': today_count,
+        'total_count': counts['total'],    
+        'upcoming_count': counts['upcoming'],
+        'past_count': counts['past'],
+        'today_count': counts['today'],
     }
     
     return render(request, "Home.html", context)
@@ -45,58 +44,54 @@ def Home_view(request):
 
 def Today_view(request):
     now = timezone.now()
-    today = Event.objects.filter(date_time__date=now.date())
-    patcount = Participant.objects.filter(events__in=today).distinct().count()
-    today_count =today.count()
+    today_events = Event.objects.select_related('category').filter(date_time__date=now.date())
+    patcount = Participant.objects.filter(events__in=today_events).distinct().count()
+    
     context = {
-        'patcount':patcount,
-        'events': today,          
-        'today_count': today_count,
+        'patcount': patcount,
+        'events': today_events,          
+        'today_count': today_events.count(),
     }
     
-    return render(request,"Today.html",context)
-
+    return render(request, "Today.html", context)
 
 
 def Upcomming_view(request):
     now = timezone.now()
-    upcomming = Event.objects.filter(date_time__gt=now.date())
-    upcomming_count =upcomming.count()
-
-    patcount = Participant.objects.filter(events__in=upcomming).distinct().count()
+    upcoming_events = Event.objects.select_related('category').filter(date_time__gt=now)
+    
+    patcount = Participant.objects.filter(events__in=upcoming_events).distinct().count()
+    
     context = {
-        'patcount':patcount,
-        'events': upcomming,          
-        'upcomming_count': upcomming_count,
+        'patcount': patcount,
+        'events': upcoming_events,          
+        'upcomming_count': upcoming_events.count(),
     }
     
-    return render(request,"Upcomming.html",context)
-
-
+    return render(request, "Upcomming.html", context)
 
 
 def Past_view(request):
     now = timezone.now()
-    past_events = Event.objects.filter(date_time__lt=now)
-    past_count = Event.objects.filter(date_time__lt=now).count()
-
+    past_events = Event.objects.select_related('category').filter(date_time__lt=now)
+    
     patcount = Participant.objects.filter(events__in=past_events).distinct().count()
+    
     context = {
-        'patcount':patcount,
+        'patcount': patcount,
         'events': past_events,          
-        'past_count': past_count,
-       
+        'past_count': past_events.count(),
     }
-    return render(request,"Past.html",context)
-
+    return render(request, "Past.html", context)
 
 
 def About_view(request):
-    return render(request,"About.html")
+    return render(request, "About.html")
 
 
 def Participant_List(request):
-    participants = Participant.objects.all()
+    participants = Participant.objects.prefetch_related('events').all()
+    
     total_participants = participants.count() 
     context = {
         'participants': participants,
@@ -114,9 +109,9 @@ def delete_event(request, event_id):
     messages.success(request, f"'{event_name}' Event Deleted")
     return redirect('home') 
 
-def event_participant_view(request,event_id):
-    event=get_object_or_404(Event,id=event_id)
-    participants=Participant.objects.filter(events=event)
+def event_participant_view(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    participants = Participant.objects.filter(events=event)
     total = participants.count()
 
     return render(request, "Participant_Event.html", {
@@ -140,17 +135,16 @@ def Update_view(request, event_id):
     return render(request, "Update_Event.html", {'form': form})
 
 def Search_event_view(request):
-    if request.method == "GET":
-      query=request.GET.get('q',)
+    query = request.GET.get('q', '') 
 
-      if query:
-          results=Event.objects.filter(event_name__icontains=query)
-      else :
-          results=Event.objects.none()
+    if query:
+        results = Event.objects.select_related('category').filter(event_name__icontains=query)
+    else:
+        results = Event.objects.none()
 
-      context={
-          'events':results,
-          'query':query
-      }
+    context = {
+        'events': results,
+        'query': query
+    }
 
-      return render(request,"Search.html",context)  
+    return render(request, "Search.html", context)
