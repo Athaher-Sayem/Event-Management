@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'events',
     "debug_toolbar",
+    'Management_Team',
 ]
 
 MIDDLEWARE = [

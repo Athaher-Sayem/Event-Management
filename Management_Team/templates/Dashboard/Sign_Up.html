@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Custom styles for form inputs */
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            box-shadow: 0 0 0 3px rgba(163, 29, 29, 0.1);
+        }
+        
+        /* Custom button hover effect */
+        .btn-primary {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(163, 29, 29, 0.2);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        /* Custom animation for form container */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .form-container {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* Custom checkbox styling */
+        .custom-checkbox:checked {
+            background-color: #A31D1D;
+            border-color: #A31D1D;
+        }
+        
+        /* Password strength indicator */
+        .password-strength {
+            height: 4px;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-[#FEF9E1] text-[#A31D1D] min-h-screen flex items-center justify-center p-4">
+    <div class="form-container w-full max-w-md">
+        <div class="bg-white rounded-2xl shadow-lg p-8 border border-[#F0E6D0]">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-[#A31D1D] rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-[#A31D1D]">Create Account</h1>
+                <p class="text-[#C89A9A] mt-2">Join our community today</p>
+            </div>
+
+            <!-- Form -->
+            <form action="" method='POST' class="space-y-6">
+                {% csrf_token %}
+                
+                <!-- Custom form rendering with better styling -->
+                <div class="space-y-4">
+                    {% for field in form %}
+                    <div>
+                        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-[#A31D1D] mb-2">
+                            {{ field.label }}
+                            {% if field.field.required %}
+                                <span class="text-red-500">*</span>
+                            {% endif %}
+                        </label>
+                        
+                        {% if field.name == 'password' %}
+                            <div class="relative">
+                                {{ field }}
+                                <button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-[#A31D1D]" onclick="togglePassword('{{ field.id_for_label }}')">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        {% else %}
+                            {{ field }}
+                        {% endif %}
+                        
+                        {% if field.help_text %}
+                            <p class="mt-1 text-sm text-[#C89A9A]">{{ field.help_text }}</p>
+                        {% endif %}
+                        
+                        {% for error in field.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Terms and Conditions -->
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="terms" name="terms" type="checkbox" class="custom-checkbox h-4 w-4 text-[#A31D1D] border-gray-300 rounded focus:ring-[#A31D1D] focus:ring-2">
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="terms" class="text-[#A31D1D]">
+                            I agree to the <a href="#" class="font-medium text-[#A31D1D] hover:text-[#8A1818] underline">Terms of Service</a> and <a href="#" class="font-medium text-[#A31D1D] hover:text-[#8A1818] underline">Privacy Policy</a>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type='submit' class="btn-primary w-full py-3 px-4 bg-[#A31D1D] text-white font-semibold rounded-lg hover:bg-[#8A1818] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A31D1D]">
+                    Create Account
+                </button>
+            </form>
+
+            <!-- Footer -->
+            <div class="mt-6 text-center">
+                <p class="text-[#C89A9A]">
+                    Already have an account?
+                    <a href="#" class="font-medium text-[#A31D1D] hover:text-[#8A1818] ml-1 underline">Sign in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add Tailwind classes to form inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.classList.add('form-input', 'w-full', 'px-4', 'py-3', 'border', 'border-[#F0E6D0]', 'rounded-lg', 'focus:outline-none', 'focus:border-[#A31D1D]', 'bg-[#FEF9E1]/50', 'text-[#A31D1D]', 'placeholder-[#C89A9A]');
+                
+                // Add specific styling for checkboxes and radios
+                if (input.type === 'checkbox' || input.type === 'radio') {
+                    input.classList.remove('form-input', 'w-full', 'px-4', 'py-3', 'border', 'rounded-lg');
+                    input.classList.add('h-4', 'w-4', 'text-[#A31D1D]', 'border-gray-300', 'rounded', 'focus:ring-[#A31D1D]', 'focus:ring-2');
+                }
+            });
+        });
+
+        // Password toggle functionality
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling;
+            const icon = button.querySelector('svg');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L6.59 6.59m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>';
+            } else {
+                input.type = 'password';
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>';
+            }
+        }
+
+        // Form validation feedback
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const terms = document.getElementById('terms');
+            if (!terms.checked) {
+                e.preventDefault();
+                terms.focus();
+                terms.parentElement.classList.add('ring-2', 'ring-red-500', 'rounded');
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>
