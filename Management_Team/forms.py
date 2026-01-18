@@ -1,6 +1,6 @@
 from django.forms import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 
 class SignUpForm(UserCreationForm):
     class Meta:
@@ -11,3 +11,8 @@ class SignUpForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         for field_name in self.fields:
             self.fields[field_name].help_text=None
+
+
+class LoginForm(AuthenticationForm):
+    def __init__(self, *arg, **kwargs):
+        super().__init__(*arg, **kwargs)

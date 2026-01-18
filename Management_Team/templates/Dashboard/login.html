@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Welcome Back</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #FEF9E1 0%, #F9F0CB 100%);
+            min-height: 100vh;
+        }
+        
+        /* Floating animation for background elements */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Form container animation */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .form-container {
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        /* Input focus effects */
+        .form-input {
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            box-shadow: 0 0 0 3px rgba(163, 29, 29, 0.1);
+        }
+        
+        /* Button hover effects */
+        .btn-primary {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(163, 29, 29, 0.25);
+        }
+        
+        .btn-primary:hover::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+        
+        /* Social button styles */
+        .social-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Remember me checkbox */
+        .custom-checkbox:checked {
+            background-color: #A31D1D;
+            border-color: #A31D1D;
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+        }
+    </style>
+</head>
+<body class="text-[#A31D1D]">
+    <!-- Background decorative elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-20 -right-20 w-64 h-64 bg-[#A31D1D] opacity-5 rounded-full floating-element"></div>
+        <div class="absolute -bottom-32 -left-20 w-80 h-80 bg-[#A31D1D] opacity-5 rounded-full floating-element" style="animation-delay: 2s;"></div>
+        <div class="absolute top-1/4 left-10 w-40 h-40 bg-[#A31D1D] opacity-3 rounded-full floating-element" style="animation-delay: 4s;"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 min-h-screen flex items-center justify-center">
+        <div class="w-full max-w-6xl flex flex-col md:flex-row items-center gap-12">
+            <!-- Left side - Welcome message and illustration -->
+            <div class="w-full md:w-1/2 text-center md:text-left">
+                <div class="mb-8">
+                    <h1 class="text-4xl md:text-5xl font-bold text-[#A31D1D] mb-4">
+                        Welcome Back
+                    </h1>
+                    <p class="text-xl text-[#C89A9A]">
+                        Sign in to continue to your account and explore our platform.
+                    </p>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="relative">
+                        <div class="w-72 h-72 mx-auto md:mx-0 bg-gradient-to-br from-[#FEF9E1] to-[#F0E6D0] rounded-full flex items-center justify-center">
+                            <div class="w-56 h-56 bg-white rounded-full flex items-center justify-center shadow-lg">
+                                <div class="text-center">
+                                    <div class="w-20 h-20 bg-[#A31D1D] rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <i class="fas fa-lock text-white text-3xl"></i>
+                                    </div>
+                                    <p class="text-[#A31D1D] font-semibold">Secure Login</p>
+                                    <p class="text-[#C89A9A] text-sm mt-2">Your data is protected</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12 grid grid-cols-3 gap-6">
+                        <div class="text-center">
+                            <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center mx-auto mb-3 shadow-md">
+                                <i class="fas fa-shield-alt text-[#A31D1D] text-xl"></i>
+                            </div>
+                            <p class="text-sm font-medium text-[#A31D1D]">Secure</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center mx-auto mb-3 shadow-md">
+                                <i class="fas fa-bolt text-[#A31D1D] text-xl"></i>
+                            </div>
+                            <p class="text-sm font-medium text-[#A31D1D]">Fast</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center mx-auto mb-3 shadow-md">
+                                <i class="fas fa-users text-[#A31D1D] text-xl"></i>
+                            </div>
+                            <p class="text-sm font-medium text-[#A31D1D]">Reliable</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right side - Login form -->
+            <div class="w-full md:w-1/2">
+                <div class="form-container bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-[#F0E6D0]">
+                    <!-- Header -->
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl font-bold text-[#A31D1D]">Sign In</h2>
+                        <p class="text-[#C89A9A] mt-2">Enter your credentials to continue</p>
+                    </div>
+                    
+                    <!-- Social login buttons -->
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <button type="button" class="social-btn flex items-center justify-center gap-3 py-3 px-4 border border-[#F0E6D0] rounded-lg hover:bg-[#FEF9E1]/30">
+                            <i class="fab fa-google text-[#DB4437]"></i>
+                            <span class="text-sm font-medium">Google</span>
+                        </button>
+                        <button type="button" class="social-btn flex items-center justify-center gap-3 py-3 px-4 border border-[#F0E6D0] rounded-lg hover:bg-[#FEF9E1]/30">
+                            <i class="fab fa-github text-gray-800"></i>
+                            <span class="text-sm font-medium">GitHub</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Divider -->
+                    <div class="relative my-8">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-[#F0E6D0]"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-4 bg-white text-[#C89A9A]">Or continue with email</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Login form -->
+                    <form method="POST" action="" class="space-y-6">
+                        {% csrf_token %}
+                        
+                        <!-- Custom form rendering -->
+                        <div class="space-y-5">
+                            {% for field in form %}
+                            <div>
+                                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-[#A31D1D] mb-2">
+                                    {{ field.label }}
+                                </label>
+                                
+                                <div class="relative">
+                                    <!-- Add icons based on field type -->
+                                    {% if field.name == 'username' or field.name == 'email' %}
+                                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#C89A9A]">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    {{ field }}
+                                    {% elif field.name == 'password' %}
+                                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#C89A9A]">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                    {{ field }}
+                                    <button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#C89A9A] hover:text-[#A31D1D]" onclick="togglePassword('{{ field.id_for_label }}')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    {% else %}
+                                    {{ field }}
+                                    {% endif %}
+                                </div>
+                                
+                                {% if field.help_text %}
+                                    <p class="mt-1 text-xs text-[#C89A9A]">{{ field.help_text }}</p>
+                                {% endif %}
+                                
+                                {% for error in field.errors %}
+                                    <p class="mt-1 text-xs text-red-600">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Remember me and Forgot password -->
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input id="remember_me" name="remember_me" type="checkbox" class="custom-checkbox h-4 w-4 text-[#A31D1D] border-gray-300 rounded focus:ring-[#A31D1D] focus:ring-2">
+                                <label for="remember_me" class="ml-2 block text-sm text-[#A31D1D]">
+                                    Remember me
+                                </label>
+                            </div>
+                            <a href="#" class="text-sm font-medium text-[#A31D1D] hover:text-[#8A1818] underline">
+                                Forgot password?
+                            </a>
+                        </div>
+                        
+                        <!-- Submit button -->
+                        <button type="submit" class="btn-primary w-full py-3.5 px-4 bg-[#A31D1D] text-white font-semibold rounded-lg hover:bg-[#8A1818] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A31D1D]">
+                            <i class="fas fa-sign-in-alt mr-2"></i>
+                            Sign In
+                        </button>
+                        
+                        <!-- Demo credentials hint -->
+                        <div class="mt-4 p-3 bg-[#FEF9E1] rounded-lg border border-[#F0E6D0]">
+                            <p class="text-xs text-[#A31D1D] text-center">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Demo: Try "admin" / "password123" or <a href="/signup" class="font-medium underline">create an account</a>
+                            </p>
+                        </div>
+                    </form>
+                    
+                    <!-- Sign up link -->
+                    <div class="mt-8 text-center">
+                        <p class="text-[#C89A9A]">
+                            Don't have an account?
+                            <a href="/signup" class="font-semibold text-[#A31D1D] hover:text-[#8A1818] ml-1 underline">
+                                Sign up now
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer note -->
+    <div class="absolute bottom-4 left-0 right-0 text-center">
+        <p class="text-sm text-[#C89A9A]">
+            © 2026 Your Platform. All rights reserved.
+        </p>
+    </div>
+
+    <script>
+        // Add Tailwind classes to form inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input:not([type="checkbox"]), select, textarea');
+            inputs.forEach(input => {
+                // Skip checkbox styling
+                if (input.type === 'checkbox') return;
+                
+                // Add base classes
+                input.classList.add('form-input', 'w-full', 'pl-10', 'pr-10', 'py-3', 'border', 'border-[#F0E6D0]', 'rounded-lg', 'focus:outline-none', 'focus:border-[#A31D1D]', 'bg-[#FEF9E1]/30', 'text-[#A31D1D]', 'placeholder-[#C89A9A]');
+                
+                // Adjust padding for fields without icons
+                if (!input.previousElementSibling || !input.previousElementSibling.classList.contains('absolute')) {
+                    input.classList.remove('pl-10');
+                    input.classList.add('pl-4');
+                }
+            });
+            
+            // Special handling for checkboxes
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.classList.add('custom-checkbox', 'rounded', 'border-gray-300', 'text-[#A31D1D]', 'focus:ring-[#A31D1D]', 'focus:ring-2', 'focus:ring-offset-0');
+            });
+        });
+
+        // Password toggle functionality
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.parentElement.querySelector('button');
+            const icon = button.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Form submission animation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            // Show loading state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Signing in...';
+            submitBtn.disabled = true;
+            
+            // In a real app, this would be handled by the form submission
+            // For demo purposes, reset after 2 seconds
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+
+        // Add focus effects to social buttons
+        document.querySelectorAll('.social-btn').forEach(btn => {
+            btn.addEventListener('focus', function() {
+                this.classList.add('ring-2', 'ring-[#A31D1D]', 'ring-opacity-30');
+            });
+            
+            btn.addEventListener('blur', function() {
+                this.classList.remove('ring-2', 'ring-[#A31D1D]', 'ring-opacity-30');
+            });
+        });
+    </script>
+</body>
+</html>
