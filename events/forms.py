@@ -1,8 +1,10 @@
 from django import forms
 from .models import Event
-
 from django import forms
-from events.models import Event
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User, Permission, Group
+from django.contrib.auth.forms import AuthenticationForm
+
 
 class Create_Task(forms.ModelForm):
     class Meta:
@@ -18,3 +20,15 @@ class Create_Task(forms.ModelForm):
             'date_time': forms.DateTimeInput(attrs={'class': style, 'type': 'datetime-local'}),
             'category': forms.Select(attrs={'class': style}),
         }
+
+
+class SignUpForm(UserCreationForm):
+    class Meta:
+        model=User
+        fields = ('username', 'password1', 'password2', 'email', 'first_name', 'last_name')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for fieldname in ['username', 'password1', 'password2']:
+            if fieldname in self.fields:
+                self.fields[fieldname].help_text = None

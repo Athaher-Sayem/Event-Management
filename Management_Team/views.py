@@ -4,16 +4,15 @@ from django.contrib.auth import login, logout
 # Create your views here.
 
 def SignUpView(request):
-    if request.method =='POST':
+    if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('home')
-
     else:
-        form=SignUpForm()
+        form = SignUpForm()
 
-    return render(request,'Dashboard/Sign_Up.html',{'form':form})
+    return render(request, 'Dashboard/sign_up.html', {'form': form})
 
 
 def LogInView(request):

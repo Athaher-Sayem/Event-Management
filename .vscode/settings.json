@@ -1,0 +1,76 @@
+{
+    "folder-color.pathColors": [
+        {
+            "folderPath": "Event_Management\\Management_Team\\__pycache__\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\migrations\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\templates\\Dashboard\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\templates\\Dashboard\\login.html\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\templates\\Dashboard\\nav_admin.html\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\templates\\Dashboard\\nav_organizer.html\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\templates\\Dashboard\\nav_participant.html\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\templates\\Dashboard\\nav_public.html\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\templates\\Dashboard\\Sign_Up.html\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\__init__.py\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\admin.py\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\apps.py\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\forms.py\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\models.py\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\tests.py\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\urls.py\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\views.py\\",
+            "color": "foldercolorizer.color_ff99ff"
+        },
+        {
+            "folderPath": "Event_Management\\Management_Team\\",
+            "color": "foldercolorizer.color_ff99ff"
+        }
+    ]
+}

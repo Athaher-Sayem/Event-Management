@@ -138,6 +138,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [
-                          # optional if you also want project-level static
-    BASE_DIR / 'event_management' / 'static', # add this so your package static is found
+                          
+    BASE_DIR / 'event_management' / 'static', 
 ]

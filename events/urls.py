@@ -17,4 +17,5 @@ urlpatterns = [
     path('Participant_Event/<int:event_id>/', event_participant_view, name='event_participant_view'),
     path('Update_View/<int:event_id>/', Update_view, name='update_view'),
     path('search/', Search_event_view, name='Search_event_view'),
-] + debug_toolbar_urls()
+
+]+ debug_toolbar_urls()

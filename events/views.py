@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Event, Participant
+from .models import Event
 from .forms import Create_Task
 from django.utils import timezone
 from django.contrib import messages
 from django.db.models import Count, Q 
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 def Create_Event(request):
     if request.method == 'POST':
@@ -17,7 +19,7 @@ def Create_Event(request):
     return render(request, "Create_Event.html", {'form': form})
 
 def Participant_Reg(request):
-    parti = Participant.objects.all()
+    parti = User.objects.all()
     return render(request, "Participant.html", {'Parti': parti})
 
 
@@ -45,7 +47,7 @@ def Home_view(request):
 def Today_view(request):
     now = timezone.now()
     today_events = Event.objects.select_related('category').filter(date_time__date=now.date())
-    patcount = Participant.objects.filter(events__in=today_events).distinct().count()
+    patcount = User.objects.filter(events__in=today_events).distinct().count()
     
     context = {
         'patcount': patcount,
@@ -60,7 +62,7 @@ def Upcomming_view(request):
     now = timezone.now()
     upcoming_events = Event.objects.select_related('category').filter(date_time__gt=now)
     
-    patcount = Participant.objects.filter(events__in=upcoming_events).distinct().count()
+    patcount = User.objects.filter(events__in=upcoming_events).distinct().count()
     
     context = {
         'patcount': patcount,
@@ -75,7 +77,7 @@ def Past_view(request):
     now = timezone.now()
     past_events = Event.objects.select_related('category').filter(date_time__lt=now)
     
-    patcount = Participant.objects.filter(events__in=past_events).distinct().count()
+    patcount = User.objects.filter(events__in=past_events).distinct().count()
     
     context = {
         'patcount': patcount,
@@ -90,7 +92,7 @@ def About_view(request):
 
 
 def Participant_List(request):
-    participants = Participant.objects.prefetch_related('events').all()
+    participants = User.objects.prefetch_related('events').all()
     
     total_participants = participants.count() 
     context = {
@@ -111,7 +113,7 @@ def delete_event(request, event_id):
 
 def event_participant_view(request, event_id):
     event = get_object_or_404(Event, id=event_id)
-    participants = Participant.objects.filter(events=event)
+    participants = User.objects.filter(events=event)
     total = participants.count()
 
     return render(request, "Participant_Event.html", {
@@ -148,3 +150,5 @@ def Search_event_view(request):
     }
 
     return render(request, "Search.html", context)
+
+
