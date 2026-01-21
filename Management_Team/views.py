@@ -16,16 +16,14 @@ def SignUpView(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            # Set user as inactive until email activation
             user.is_active = False
             user.save()
             
-            # Assign user to Participant group by default
             try:
                 participant_group = Group.objects.get(name='Participant')
                 user.groups.add(participant_group)
             except Group.DoesNotExist:
-                # If group doesn't exist, create it
+                
                 participant_group = Group.objects.create(name='Participant')
                 user.groups.add(participant_group)
             
@@ -42,8 +40,6 @@ def LogInView(request):
         form = LoginForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
-            
-            # Check if user account is activated
             if not user.is_active:
                 messages.error(request, 'Your account is not activated. Please check your email for the activation link.')
                 return redirect('login')
@@ -51,7 +47,6 @@ def LogInView(request):
             login(request, user)
             messages.success(request, f'Welcome back, {user.get_full_name() or user.username}!')
             
-            # Redirect to appropriate dashboard based on role
             if user.groups.filter(name='Admin').exists():
                 return redirect('admin_dashboard')
             elif user.groups.filter(name='Organizer').exists():

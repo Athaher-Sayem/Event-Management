@@ -14,6 +14,7 @@ from pathlib import Path
 import dj_database_url 
 from decouple import config
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -151,4 +152,17 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='tenma.edu@gmail.com')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='mnvd zfrn zqbb pbva')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='tenma.edu@gmail.com')
+SITE_URL = config('SITE_URL', default='http://127.0.0.1:8000')
+
+
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# These will now pull from the .env file
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 SITE_URL = config('SITE_URL', default='http://127.0.0.1:8000')
