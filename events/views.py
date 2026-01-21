@@ -37,7 +37,7 @@ def Home_view(request):
         today=Count('id', filter=Q(date_time__date=now.date()))
     )
 
-    # Check RSVP status for authenticated users
+    # RSVP status 
     user_rsvp_events = set()
     is_participant = False
     is_organizer = False
@@ -179,15 +179,15 @@ def Search_event_view(request):
 # RSVP Views
 @login_required
 def rsvp_event(request, event_id):
-    """Allow participants to RSVP to an event"""
+    
     event = get_object_or_404(Event, id=event_id)
     
-    # Check if user already RSVP'd
+    
     if event.participants.filter(id=request.user.id).exists():
         messages.warning(request, f'You have already RSVP\'d to "{event.event_name}"')
         return redirect('home')
     
-    # Add user to event participants (RSVP)
+    
     event.participants.add(request.user)
     messages.success(request, f'Successfully RSVP\'d to "{event.event_name}"! Check your email for confirmation.')
     return redirect('home')
@@ -195,7 +195,7 @@ def rsvp_event(request, event_id):
 
 @login_required
 def cancel_rsvp(request, event_id):
-    """Allow participants to cancel their RSVP"""
+    
     event = get_object_or_404(Event, id=event_id)
     
     if event.participants.filter(id=request.user.id).exists():
@@ -210,7 +210,7 @@ def cancel_rsvp(request, event_id):
 # Dashboard Views
 @admin_required
 def admin_dashboard(request):
-    """Admin Dashboard - Full access"""
+    
     now = timezone.now()
     all_events = Event.objects.select_related('category').all().order_by('-date_time')
     all_participants = User.objects.all()
@@ -240,7 +240,7 @@ def admin_dashboard(request):
 
 @organizer_required
 def organizer_dashboard(request):
-    """Organizer Dashboard - Manage events and categories"""
+    
     now = timezone.now()
     all_events = Event.objects.select_related('category').all().order_by('-date_time')
     all_categories = Category.objects.all()
@@ -267,7 +267,7 @@ def organizer_dashboard(request):
 
 @login_required
 def participant_dashboard(request):
-    """Participant Dashboard - View RSVP'd events"""
+    
     user = request.user
     rsvp_events = Event.objects.filter(participants=user).select_related('category').order_by('-date_time')
     now = timezone.now()
@@ -289,10 +289,10 @@ def participant_dashboard(request):
 
 @admin_required
 def delete_participant(request, user_id):
-    """Admin can delete participants"""
+    
     participant = get_object_or_404(User, id=user_id)
     
-    # Prevent admin from deleting themselves
+    # Prevent fucking admin 
     if participant == request.user:
         messages.error(request, 'You cannot delete your own account.')
         return redirect('admin_dashboard')
@@ -305,22 +305,18 @@ def delete_participant(request, user_id):
 
 @admin_required
 def manage_groups(request):
-    """Admin can manage groups"""
     groups = Group.objects.all()
     return render(request, 'Dashboard/manage_groups.html', {'groups': groups})
 
 
 @admin_required
 def change_user_role(request, user_id):
-    """Admin can change user roles"""
     user = get_object_or_404(User, id=user_id)
     
     if request.method == 'POST':
         role = request.POST.get('role')
-        # Remove user from all groups
         user.groups.clear()
         
-        # Add to selected group
         if role:
             try:
                 group = Group.objects.get(name=role)
