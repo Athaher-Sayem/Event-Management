@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change User Role</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#FEF9E1] min-h-screen">
+    {% include "nav_ex.html" %}
+    
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-[#6D2323] mb-8">Change Role for {{ user.username }}</h1>
+        
+        <div class="mb-4">
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+        </div>
+
+        <div class="card bg-white shadow-xl max-w-2xl">
+            <div class="card-body">
+                <h2 class="card-title">Current Groups:</h2>
+                <div class="mb-4">
+                    {% for group in user.groups.all %}
+                        <span class="badge badge-primary badge-lg">{{ group.name }}</span>
+                    {% empty %}
+                        <span class="text-gray-500">No groups assigned</span>
+                    {% endfor %}
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Select New Role</span>
+                        </label>
+                        <select name="role" class="select select-bordered w-full">
+                            <option value="">-- Select Role --</option>
+                            {% for group in groups %}
+                                <option value="{{ group.name }}" {% if group in user.groups.all %}selected{% endif %}>
+                                    {{ group.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="card-actions justify-end mt-4">
+                        <button type="submit" class="btn btn-primary">Change Role</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

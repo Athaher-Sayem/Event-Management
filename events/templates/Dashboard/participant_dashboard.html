@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Participant Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#FEF9E1] min-h-screen">
+    {% include "nav_ex.html" %}
+    
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-[#6D2323] mb-8">My Dashboard</h1>
+        
+        <!-- Statistics -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="stats shadow bg-white">
+                <div class="stat">
+                    <div class="stat-title">Total RSVPs</div>
+                    <div class="stat-value text-[#6D2323]">{{ total_rsvp }}</div>
+                </div>
+            </div>
+            <div class="stats shadow bg-white">
+                <div class="stat">
+                    <div class="stat-title">Upcoming RSVPs</div>
+                    <div class="stat-value text-[#6D2323]">{{ upcoming_rsvp.count }}</div>
+                </div>
+            </div>
+            <div class="stats shadow bg-white">
+                <div class="stat">
+                    <div class="stat-title">Past RSVPs</div>
+                    <div class="stat-value text-[#6D2323]">{{ past_rsvp.count }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RSVP'd Events -->
+        <div>
+            <h2 class="text-2xl font-semibold text-[#6D2323] mb-4">My RSVP'd Events</h2>
+            {% if rsvp_events %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for event in rsvp_events %}
+                <div class="card bg-white shadow-xl">
+                    <figure>
+                        {% if event.image %}
+                            <img src="{{ event.image.url }}" alt="{{ event.event_name }}" class="h-48 w-full object-cover">
+                        {% else %}
+                            <img src="{% static 'images/default_img.jpg' %}" alt="{{ event.event_name }}" class="h-48 w-full object-cover">
+                        {% endif %}
+                    </figure>
+                    <div class="card-body">
+                        <h2 class="card-title text-[#A31D1D]">{{ event.event_name }}</h2>
+                        <div class="badge badge-primary">{{ event.category }}</div>
+                        <p class="text-gray-600">{{ event.event_description|truncatewords:20 }}</p>
+                        <div class="mt-2 space-y-1 text-sm">
+                            <div class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <span>{{ event.date_time|date:"d M, Y" }}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#A31D1D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                <span>{{ event.location }}</span>
+                            </div>
+                        </div>
+                        <div class="card-actions justify-end mt-4">
+                            <a href="{% url 'cancel_rsvp' event.id %}" class="btn btn-sm btn-error" onclick="return confirm('Cancel RSVP?')">Cancel RSVP</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                <span>You haven't RSVP'd to any events yet. <a href="{% url 'home' %}" class="link">Browse events</a></span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

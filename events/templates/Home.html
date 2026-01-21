@@ -108,11 +108,39 @@
             </a>
         </div>
 
-        <div class="card-actions mt-6">
-            <a href="{% url 'update_view' siev.id %}" class="btn w-full bg-[#5d1a9c] text-white hover:bg-[#ff0000] border-none">
-                Update Event
-            </a>
-        </div>
+        {% if user.is_authenticated %}
+            {% if is_participant %}
+                {% if siev.id in user_rsvp_events %}
+                    <div class="card-actions mt-6">
+                        <a href="{% url 'cancel_rsvp' siev.id %}" class="btn w-full bg-[#dc2626] text-white hover:bg-[#b91c1c] border-none" onclick="return confirm('Cancel RSVP?')">
+                            Cancel RSVP
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="card-actions mt-6">
+                        <a href="{% url 'rsvp_event' siev.id %}" class="btn w-full bg-[#10b981] text-white hover:bg-[#059669] border-none">
+                            RSVP to Event
+                        </a>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% else %}
+            <div class="card-actions mt-6">
+                <a href="{% url 'login' %}" class="btn w-full bg-[#10b981] text-white hover:bg-[#059669] border-none">
+                    Login to RSVP
+                </a>
+            </div>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            {% if is_organizer or is_admin %}
+                <div class="card-actions mt-6">
+                    <a href="{% url 'update_view' siev.id %}" class="btn w-full bg-[#5d1a9c] text-white hover:bg-[#4c1480] border-none">
+                        Update Event
+                    </a>
+                </div>
+            {% endif %}
+        {% endif %}
             
         </div>
 

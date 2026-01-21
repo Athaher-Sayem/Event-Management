@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#FEF9E1] min-h-screen">
+    {% include "nav_ex.html" %}
+    
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-[#6D2323] mb-8">Admin Dashboard</h1>
+        
+        <!-- Statistics -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="stats shadow bg-white">
+                <div class="stat">
+                    <div class="stat-title">Total Events</div>
+                    <div class="stat-value text-[#6D2323]">{{ total_events }}</div>
+                </div>
+            </div>
+            <div class="stats shadow bg-white">
+                <div class="stat">
+                    <div class="stat-title">Upcoming Events</div>
+                    <div class="stat-value text-[#6D2323]">{{ upcoming_events }}</div>
+                </div>
+            </div>
+            <div class="stats shadow bg-white">
+                <div class="stat">
+                    <div class="stat-title">Total Participants</div>
+                    <div class="stat-value text-[#6D2323]">{{ total_participants }}</div>
+                </div>
+            </div>
+            <div class="stats shadow bg-white">
+                <div class="stat">
+                    <div class="stat-title">Categories</div>
+                    <div class="stat-value text-[#6D2323]">{{ total_categories }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold text-[#6D2323] mb-4">Quick Actions</h2>
+            <div class="flex gap-4">
+                <a href="{% url 'Create_Event' %}" class="btn btn-primary">Create Event</a>
+                <a href="{% url 'Participant' %}" class="btn btn-secondary">Manage Participants</a>
+                <a href="{% url 'manage_groups' %}" class="btn btn-accent">Manage Groups</a>
+            </div>
+        </div>
+
+        <!-- Events List -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold text-[#6D2323] mb-4">All Events</h2>
+            <div class="overflow-x-auto">
+                <table class="table w-full bg-white shadow">
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Category</th>
+                            <th>Date & Time</th>
+                            <th>Location</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in events %}
+                        <tr>
+                            <td>{{ event.event_name }}</td>
+                            <td>{{ event.category }}</td>
+                            <td>{{ event.date_time|date:"d M Y, h:i A" }}</td>
+                            <td>{{ event.location }}</td>
+                            <td>
+                                <a href="{% url 'update_view' event.id %}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{% url 'delete_event' event.id %}" class="btn btn-sm btn-error" onclick="return confirm('Are you sure?')">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Participants List -->
+        <div>
+            <h2 class="text-2xl font-semibold text-[#6D2323] mb-4">All Participants</h2>
+            <div class="overflow-x-auto">
+                <table class="table w-full bg-white shadow">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Groups</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for participant in participants %}
+                        <tr>
+                            <td>{{ participant.username }}</td>
+                            <td>{{ participant.email }}</td>
+                            <td>{{ participant.get_full_name|default:"-" }}</td>
+                            <td>
+                                {% for group in participant.groups.all %}
+                                    <span class="badge badge-primary">{{ group.name }}</span>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                <a href="{% url 'change_user_role' participant.id %}" class="btn btn-sm btn-primary">Change Role</a>
+                                {% if participant != user %}
+                                <a href="{% url 'delete_participant' participant.id %}" class="btn btn-sm btn-error" onclick="return confirm('Are you sure?')">Delete</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

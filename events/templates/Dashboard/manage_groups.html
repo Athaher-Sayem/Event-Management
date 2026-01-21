@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Groups</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#FEF9E1] min-h-screen">
+    {% include "nav_ex.html" %}
+    
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-[#6D2323] mb-8">Manage Groups</h1>
+        
+        <div class="mb-4">
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="table w-full bg-white shadow">
+                <thead>
+                    <tr>
+                        <th>Group Name</th>
+                        <th>Permissions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for group in groups %}
+                    <tr>
+                        <td class="font-semibold">{{ group.name }}</td>
+                        <td>
+                            {% for permission in group.permissions.all|slice:":5" %}
+                                <span class="badge badge-sm">{{ permission.name }}</span>
+                            {% endfor %}
+                            {% if group.permissions.count > 5 %}
+                                <span class="badge badge-sm">+{{ group.permissions.count|add:"-5" }} more</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

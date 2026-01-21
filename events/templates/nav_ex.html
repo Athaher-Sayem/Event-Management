@@ -51,31 +51,35 @@
         </li>
 
 
-        <li>
-            <a href="{% url 'Create_Event' %}" 
-               class="px-4 py-2 rounded-full 
-               {% if request.resolver_match.url_name == 'Create_Event' %}
-                   font-bold bg-[#A31D1D]/10 text-[#A31D1D]
-               {% else %}
-                   font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]
-               {% endif %}">
-               Create Event
-            </a>
-        </li>
-
-
-        
-        <li>
-            <a href="{% url 'Participant' %}" 
-               class="px-4 py-2 rounded-full 
-               {% if request.resolver_match.url_name == 'Participant' %}
-                   font-bold bg-[#A31D1D]/10 text-[#A31D1D]
-               {% else %}
-                   font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]
-               {% endif %}">
-               Participant
-            </a>
-        </li>
+        {% if user.is_authenticated %}
+            {% if user.groups.all.0.name == 'Organizer' or user.groups.all.0.name == 'Admin' %}
+                <li>
+                    <a href="{% url 'Create_Event' %}" 
+                       class="px-4 py-2 rounded-full 
+                       {% if request.resolver_match.url_name == 'Create_Event' %}
+                           font-bold bg-[#A31D1D]/10 text-[#A31D1D]
+                       {% else %}
+                           font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]
+                       {% endif %}">
+                       Create Event
+                    </a>
+                </li>
+            {% endif %}
+            
+            {% if user.groups.all.0.name == 'Admin' %}
+                <li>
+                    <a href="{% url 'Participant' %}" 
+                       class="px-4 py-2 rounded-full 
+                       {% if request.resolver_match.url_name == 'Participant' %}
+                           font-bold bg-[#A31D1D]/10 text-[#A31D1D]
+                       {% else %}
+                           font-medium transition-all duration-300 hover:bg-[#A31D1D]/10 hover:text-[#A31D1D]
+                       {% endif %}">
+                       Participants
+                    </a>
+                </li>
+            {% endif %}
+        {% endif %}
 
 
         <li>
@@ -92,7 +96,7 @@
 
     </ul>
 
-    <div>
+    <div class="flex items-center gap-4">
         <form method="GET" action="{% url 'Search_event_view' %}">
             <div class="flex items-center w-80 px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full focus-within:ring-2 focus-within:ring-[#A31D1D]/20 focus-within:border-[#A31D1D] transition-all">
                 
@@ -105,6 +109,32 @@
                 <input type="text" name="q" placeholder="Search events..." class="w-full ml-3 bg-transparent outline-none text-gray-600 placeholder-gray-400" value="{{ request.GET.q }}"/>
             </div>
         </form>
+        
+        {% if user.is_authenticated %}
+            <div class="dropdown dropdown-end">
+                <div tabindex="0" role="button" class="btn btn-ghost">
+                    <span class="text-[#A31D1D] font-medium">{{ user.get_full_name|default:user.username }}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
+                <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                    {% if user.groups.all.0.name == 'Admin' %}
+                        <li><a href="{% url 'admin_dashboard' %}">Admin Dashboard</a></li>
+                    {% elif user.groups.all.0.name == 'Organizer' %}
+                        <li><a href="{% url 'organizer_dashboard' %}">Organizer Dashboard</a></li>
+                    {% else %}
+                        <li><a href="{% url 'participant_dashboard' %}">My Dashboard</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </div>
+        {% else %}
+            <div class="flex gap-2">
+                <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+                <a href="{% url 'sign-up' %}" class="btn btn-outline btn-primary">Sign Up</a>
+            </div>
+        {% endif %}
     </div>
     
 </nav>

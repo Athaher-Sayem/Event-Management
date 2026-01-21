@@ -19,7 +19,7 @@ class Event(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE,default=1)
 
    
-    image = models.ImageField(upload_to='event_images/', default='default.jpg')
+    image = models.ImageField(upload_to='event_images/', default='default_img.jpg')
 
     participants = models.ManyToManyField(User, related_name='events', blank=True)
 

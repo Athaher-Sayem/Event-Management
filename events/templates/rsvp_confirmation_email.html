@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>RSVP Confirmation</title>
+</head>
+<body>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h2 style="color: #333;">RSVP Confirmation</h2>
+        <p>Hello {{ user.first_name|default:user.username }},</p>
+        <p>Thank you for RSVPing to the following event:</p>
+        <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
+            <h3 style="margin-top: 0; color: #4CAF50;">{{ event.event_name }}</h3>
+            <p><strong>Description:</strong> {{ event.event_description }}</p>
+            <p><strong>Location:</strong> {{ event.location }}</p>
+            <p><strong>Date & Time:</strong> {{ event.date_time }}</p>
+            <p><strong>Category:</strong> {{ event.category.cat_name }}</p>
+        </div>
+        <p>We look forward to seeing you at the event!</p>
+        <p>Best regards,<br>Event Management Team</p>
+    </div>
+</body>
+</html>

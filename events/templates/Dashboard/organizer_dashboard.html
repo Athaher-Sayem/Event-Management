@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizer Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#FEF9E1] min-h-screen">
+    {% include "nav_ex.html" %}
+    
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-[#6D2323] mb-8">Organizer Dashboard</h1>
+        
+        <!-- Statistics -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="stats shadow bg-white">
+                <div class="stat">
+                    <div class="stat-title">Total Events</div>
+                    <div class="stat-value text-[#6D2323]">{{ total_events }}</div>
+                </div>
+            </div>
+            <div class="stats shadow bg-white">
+                <div class="stat">
+                    <div class="stat-title">Upcoming Events</div>
+                    <div class="stat-value text-[#6D2323]">{{ upcoming_events }}</div>
+                </div>
+            </div>
+            <div class="stats shadow bg-white">
+                <div class="stat">
+                    <div class="stat-title">Past Events</div>
+                    <div class="stat-value text-[#6D2323]">{{ past_events }}</div>
+                </div>
+            </div>
+            <div class="stats shadow bg-white">
+                <div class="stat">
+                    <div class="stat-title">Categories</div>
+                    <div class="stat-value text-[#6D2323]">{{ total_categories }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold text-[#6D2323] mb-4">Quick Actions</h2>
+            <div class="flex gap-4">
+                <a href="{% url 'Create_Event' %}" class="btn btn-primary">Create Event</a>
+            </div>
+        </div>
+
+        <!-- Events List -->
+        <div>
+            <h2 class="text-2xl font-semibold text-[#6D2323] mb-4">All Events</h2>
+            <div class="overflow-x-auto">
+                <table class="table w-full bg-white shadow">
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Category</th>
+                            <th>Date & Time</th>
+                            <th>Location</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in events %}
+                        <tr>
+                            <td>{{ event.event_name }}</td>
+                            <td>{{ event.category }}</td>
+                            <td>{{ event.date_time|date:"d M Y, h:i A" }}</td>
+                            <td>{{ event.location }}</td>
+                            <td>
+                                <a href="{% url 'update_view' event.id %}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{% url 'delete_event' event.id %}" class="btn btn-sm btn-error" onclick="return confirm('Are you sure?')">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
