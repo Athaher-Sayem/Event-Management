@@ -6,3 +6,4 @@ psycopg2-binary==2.9.11
 sqlparse==0.5.5
 tzdata==2025.3
 python-decouple==3.8
+django-debug-toolbar
