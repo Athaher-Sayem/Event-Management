@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-import dj_database_url 
 from decouple import config
+
+import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,7 +30,8 @@ SECRET_KEY = 'django-insecure-of0$yu+9-15ecmzv!v(vvyx&_=)$0=%oz+gdg%+5%8ejq4pmc@
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com', 'http://127.0.0.1:8000']
+CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com', 'http://127.0.0.1:8000', 'http://localhost:8000']
+
 
 # Application definition
 
@@ -47,7 +49,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-      "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -77,30 +79,27 @@ TEMPLATES = [
 WSGI_APPLICATION = 'event_management.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+DATABASES = {
+    'default': dj_database_url.parse(
+        'postgresql://event_e6vd_user:6Bna7zN596AzR5Mwyeo0GQW7LFJmLQpV@dpg-d69ind75r7bs73f90fl0-a.virginia-postgres.render.com/event_e6vd?sslmode=require',
+        conn_max_age=600
+    )
+}
+
+# For local development you can uncomment this block instead
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'Event_Management',
-#         'USER': 'postgres',
-#         'PASSWORD': 'admin123',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
 
 
-DATABASES={
-    'default':dj_database_url.config(default=config('DATABASE_URL'))
-}
-
 INTERNAL_IPS = [
-    # ...
     "127.0.0.1",
-    # ...
 ]
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -136,16 +135,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
+STATIC_URL = "static/"
+STATICFILES_DIRS = [
+    BASE_DIR / 'event_management' / 'static',
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-
-STATIC_URL = "static/"
-STATICFILES_DIRS = [
-                          
-    BASE_DIR / 'event_management' / 'static', 
-]
 
 # Use custom user model
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -157,11 +154,14 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-# These will now pull from the .env file
-
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='sayem@sayem.com')
 SITE_URL = config('SITE_URL', default='http://127.0.0.1:8000')
 
 
+# Debug Toolbar (optional – only in development)
+if DEBUG:
+    import socket
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS += [".".join(ip.split(".")[:-1] + ["1"]) for ip in ips]
