@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .decorators import organizer_required, admin_required, role_required
 User = get_user_model()
-
+ 
 @organizer_required
 def Create_Event(request):
     if request.method == 'POST':
@@ -27,89 +27,101 @@ def Participant_Reg(request):
     return render(request, "Participant.html", {'Parti': parti})
 
 
-def Home_view(request):
-    now = timezone.now()
-    all_events = Event.objects.select_related('category').all().order_by('-date_time')
-    counts = Event.objects.aggregate(
-        total=Count('id'),
-        upcoming=Count('id', filter=Q(date_time__gt=now)),
-        past=Count('id', filter=Q(date_time__lt=now)),
-        today=Count('id', filter=Q(date_time__date=now.date()))
-    )
-
-    # RSVP status 
-    user_rsvp_events = set()
-    is_participant = False
-    is_organizer = False
-    is_admin = False
-    
-    if request.user.is_authenticated:
-        user_rsvp_events = set(Event.objects.filter(participants=request.user).values_list('id', flat=True))
-        user_groups = request.user.groups.values_list('name', flat=True)
-        is_participant = 'Participant' in user_groups and 'Admin' not in user_groups and 'Organizer' not in user_groups
-        is_organizer = 'Organizer' in user_groups
-        is_admin = 'Admin' in user_groups
-
-    context = {
-        'events': all_events,          
-        'total_count': counts['total'],    
-        'upcoming_count': counts['upcoming'],
-        'past_count': counts['past'],
-        'today_count': counts['today'],
-        'user_rsvp_events': user_rsvp_events,
-        'is_participant': is_participant,
-        'is_organizer': is_organizer,
-        'is_admin': is_admin,
-    }
-    
-    return render(request, "Home.html", context)
+from django.views.generic import TemplateView
 
 
-def Today_view(request):
-    now = timezone.now()
-    today_events = Event.objects.select_related('category').filter(date_time__date=now.date())
-    patcount = User.objects.filter(events__in=today_events).distinct().count()
-    
-    context = {
-        'patcount': patcount,
-        'events': today_events,          
-        'today_count': today_events.count(),
-    }
-    
-    return render(request, "Today.html", context)
+class HomeView(TemplateView):
+    template_name = 'Home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        now = timezone.now()
+        all_events = Event.objects.select_related('category').all().order_by('-date_time')
+        counts = Event.objects.aggregate(
+            total=Count('id'),
+            upcoming=Count('id', filter=Q(date_time__gt=now)),
+            past=Count('id', filter=Q(date_time__lt=now)),
+            today=Count('id', filter=Q(date_time__date=now.date()))
+        )
+
+        user_rsvp_events = set()
+        is_participant = False
+        is_organizer = False
+        is_admin = False
+
+        user = self.request.user
+        if user.is_authenticated:
+            user_rsvp_events = set(Event.objects.filter(participants=user).values_list('id', flat=True))
+            user_groups = user.groups.values_list('name', flat=True)
+            is_participant = 'Participant' in user_groups and 'Admin' not in user_groups and 'Organizer' not in user_groups
+            is_organizer = 'Organizer' in user_groups
+            is_admin = 'Admin' in user_groups
+
+        context.update({
+            'events': all_events,
+            'total_count': counts['total'],
+            'upcoming_count': counts['upcoming'],
+            'past_count': counts['past'],
+            'today_count': counts['today'],
+            'user_rsvp_events': user_rsvp_events,
+            'is_participant': is_participant,
+            'is_organizer': is_organizer,
+            'is_admin': is_admin,
+        })
+
+        return context
 
 
-def Upcomming_view(request):
-    now = timezone.now()
-    upcoming_events = Event.objects.select_related('category').filter(date_time__gt=now)
-    
-    patcount = User.objects.filter(events__in=upcoming_events).distinct().count()
-    
-    context = {
-        'patcount': patcount,
-        'events': upcoming_events,          
-        'upcomming_count': upcoming_events.count(),
-    }
-    
-    return render(request, "Upcomming.html", context)
+class TodayView(TemplateView):
+    template_name = 'Today.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        now = timezone.now()
+        today_events = Event.objects.select_related('category').filter(date_time__date=now.date())
+        patcount = User.objects.filter(events__in=today_events).distinct().count()
+        context.update({
+            'patcount': patcount,
+            'events': today_events,
+            'today_count': today_events.count(),
+        })
+        return context
 
 
-def Past_view(request):
-    now = timezone.now()
-    past_events = Event.objects.select_related('category').filter(date_time__lt=now)
-    
-    patcount = User.objects.filter(events__in=past_events).distinct().count()
-    
-    context = {
-        'patcount': patcount,
-        'events': past_events,          
-        'past_count': past_events.count(),
-    }
-    return render(request, "Past.html", context)
+class UpcomingView(TemplateView):
+    template_name = 'Upcomming.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        now = timezone.now()
+        upcoming_events = Event.objects.select_related('category').filter(date_time__gt=now)
+        patcount = User.objects.filter(events__in=upcoming_events).distinct().count()
+        context.update({
+            'patcount': patcount,
+            'events': upcoming_events,
+            'upcomming_count': upcoming_events.count(),
+        })
+        return context
 
 
-def About_view(request):
-    return render(request, "About.html")
+class PastView(TemplateView):
+    template_name = 'Past.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        now = timezone.now()
+        past_events = Event.objects.select_related('category').filter(date_time__lt=now)
+        patcount = User.objects.filter(events__in=past_events).distinct().count()
+        context.update({
+            'patcount': patcount,
+            'events': past_events,
+            'past_count': past_events.count(),
+        })
+        return context
+
+
+class AboutView(TemplateView):
+    template_name = 'About.html'
 
 
 @admin_required

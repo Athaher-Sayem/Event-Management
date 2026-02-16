@@ -1,15 +1,16 @@
 from django.urls import path
 from events.views import *
+from events.views import HomeView, TodayView, UpcomingView, PastView, AboutView
 from django.views.generic import RedirectView
 from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
-    path('', Home_view, name='home'),
+    path('', HomeView.as_view(), name='home'),
     # path('Home/', Home_view, name='home'),
-    path('Today_Events/', Today_view, name='today_events'),
-    path('Upcomming_Events/', Upcomming_view, name='upcoming_events'),
-    path('Past_Events/', Past_view, name='past_events'),
-    path('About_Us/', About_view, name='about_us'),
+    path('Today_Events/', TodayView.as_view(), name='today_events'),
+    path('Upcomming_Events/', UpcomingView.as_view(), name='upcoming_events'),
+    path('Past_Events/', PastView.as_view(), name='past_events'),
+    path('About_Us/', AboutView.as_view(), name='about_us'),
     path('Create_Event/', Create_Event, name='Create_Event'),
     path('Participant_Reg/', Participant_Reg, name='Participant_Reg'),
     path('Participant/', Participant_List, name='Participant'),

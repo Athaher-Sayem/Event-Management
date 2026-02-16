@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'events',
     "debug_toolbar",
     'Management_Team',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -145,6 +146,9 @@ STATICFILES_DIRS = [
                           
     BASE_DIR / 'event_management' / 'static', 
 ]
+
+# Use custom user model
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
 # Email Configuration

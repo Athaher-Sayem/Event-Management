@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Profile</h2>
+<img src="{{ user_obj.profile_picture.url }}" alt="Profile" width="120" />
+<ul>
+    <li>Username: {{ user_obj.username }}</li>
+    <li>First name: {{ user_obj.first_name }}</li>
+    <li>Last name: {{ user_obj.last_name }}</li>
+    <li>Email: {{ user_obj.email }}</li>
+    <li>Phone: {{ user_obj.phone_number }}</li>
+</ul>
+<a href="{% url 'profile_edit' %}">Edit profile</a>
+<a href="{% url 'password_change' %}">Change password</a>
+{% endblock %}
